@@ -45,8 +45,8 @@ int interface::MainLoop() {
       std::cout << "*---------------------------*" << std::endl;
       std::cout << "|        Search modes       |" << std::endl;
       std::cout << "|0 - exit                   |" << std::endl;
-      std::cout << "|1 - string.find()          |" << std::endl;
-      std::cout << "|2 - brutforce              |" << std::endl;
+      std::cout << "|1 - string.find() search   |" << std::endl;
+      std::cout << "|2 - KMP search             |" << std::endl;
       std::cout << "|___________________________|" << std::endl;
       _searchMode = InputNumber("search mode");
       if (_searchMode == 0) {
@@ -65,7 +65,7 @@ int interface::MainLoop() {
         model->FindSearch();
         std::cout << (double)(std::clock() - start_time) << std::endl;
       } else if (_searchMode == 2) {
-        // BrutforceSearch();
+        model->Search();
       }
       _status = 10;
     }

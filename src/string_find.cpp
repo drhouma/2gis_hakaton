@@ -25,29 +25,35 @@ int finder::checkLongerWord(int posH, int posN) {
   }
   return res;
 }
-
+// vnk2435kvabco8awkh125kjneytbcd12qjhb4acd123xmnbqwnw4tcd123
 /// поиск паттерна в строке
-void finder::find(std::string p, int posInNeedle) {
-  int index = 0;
+void finder::MyFind(std::string p, int posInNeedle) {
+  int index = 0, len = p.length();
   bool finded = false;
-  while (index != _haystack.npos) {
+  while (index < len && index != _haystack.npos) {
     index = _haystack.find(p, index);
 
     if (checkRepeat(index, posInNeedle)) {
-      _longer--;
-      index = index + 1;
+      index = index + _threshold;
     } else if (index != _haystack.npos) {
-      int what = checkLongerWord(index + _threshold, posInNeedle + _threshold);
-      _longer = what;
+      int deltaLen =
+          checkLongerWord(index + _threshold, posInNeedle + _threshold);
+      _longer = deltaLen;
       finded = true;
-      std::cout << "sequence of length = " << _threshold + what;
+      std::cout << "sequence of length = " << _threshold + deltaLen;
       std::cout << " found at haystack offset " << index;
       std::cout << ", needle offset " << posInNeedle << std::endl;
-      index = index + what + 1;
+      index = index + deltaLen + 1;
     }
   }
   _isFindedBefore = finded;
   if (_longer != 0) _isFindedBefore = true;
+  /// _longer - параметр отвечающий за удлинение паттерна
+  /// изначально всегда ищется паттерн заданной длины, если же находится
+  /// паттерн, который является "удлинением" заданного паттерна, их разница
+  /// запиывается в _longer
+  /// это нужно для отслеживания повторяющихся паттернов в функции checkRepeat
+  _longer--;
 }
 
 finder::finder(std::string& haystack, std::string needle, int& threshold) {
@@ -57,29 +63,10 @@ finder::finder(std::string& haystack, std::string needle, int& threshold) {
 }
 finder::finder() {}
 
-void ExtendedSearch(std::string haystack, std::string needle, int threshold) {
-  finder obj(haystack, needle, threshold);
-  int len = needle.length();
-  for (int counter = len - threshold + 1, shift = 0; counter - shift > 0;
-       shift++) {
-    obj.find(needle.substr(shift, threshold - 1 + shift), shift);
-  }
-}
 void finder::FindSearch() {
   int len = _needle.length();
   for (int counter = len - _threshold + 1, shift = 0; counter - shift > 0;
        shift++) {
-    find(_needle.substr(shift, _threshold - 1 + shift), shift);
+    MyFind(_needle.substr(shift, _threshold), shift);
   }
 }
-// int main() {
-//   unsigned int start_time = std::clock();
-//   std::string haystack = "abcddab";
-//   std::string needle = "abcd";
-//   haystack = "vnk2435kvabco8awkh125kjneytbcd12qjhb4acd123xmnbqwnw4t";
-//   needle = "abcd1234";
-//   int threshold = 3;
-//   for (int i = 0; i < 1000; i++) ExtendedSearch(haystack, needle, threshold);
-
-//   std::cout << std::clock() - start_time;
-// }
