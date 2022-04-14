@@ -14,13 +14,21 @@
 Что бы его запустить введите ```make run``` в папке src
 
 \*---------------------------\*
-|         Menu modes        |
+
+|         Menu bar          |
+
 |0 - exit                   |
+
 |1 - enter data             |
+
 |2 - set search mode        |
+
 |3 - search                 |
+
 |4 - enable time show       |
+
 |Search mode - string.find  |
+
 |___________________________|
 
 Для выбора режима нажмите соответсвующую цифру и нажмите enter
