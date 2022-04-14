@@ -1,6 +1,6 @@
 CC=g++
 CFLAGS=#-Wall -Wextra -Werror
-FILES_CPP=main.cpp interface.cpp string_find.cpp Knuth_Morris_Pratt.cpp
+FILES_CPP=main.cpp interface.cpp string_find.cpp Knuth_Morris_Pratt.cpp model.cpp
 # EXEC_NAME=finder.out
 
 run: buildProject

@@ -25,16 +25,16 @@ int finder::checkLongerWord(int posH, int posN) {
   }
   return res;
 }
-// vnk2435kvabco8awkh125kjneytbcd12qjhb4acd123xmnbqwnw4tcd123
+// abcdvnk2435kvbcdo8awkh125kjneytbcd12qjhb4acd123xmnbqwnw4tcd123
 /// поиск паттерна в строке
 void finder::MyFind(std::string p, int posInNeedle) {
-  int index = 0, len = p.length();
+  int index = 0, len = _haystack.length();
   bool finded = false;
   while (index < len && index != _haystack.npos) {
     index = _haystack.find(p, index);
 
     if (checkRepeat(index, posInNeedle)) {
-      index = index + _threshold;
+      index = index + 1;
     } else if (index != _haystack.npos) {
       int deltaLen =
           checkLongerWord(index + _threshold, posInNeedle + _threshold);
@@ -48,11 +48,6 @@ void finder::MyFind(std::string p, int posInNeedle) {
   }
   _isFindedBefore = finded;
   if (_longer != 0) _isFindedBefore = true;
-  /// _longer - параметр отвечающий за удлинение паттерна
-  /// изначально всегда ищется паттерн заданной длины, если же находится
-  /// паттерн, который является "удлинением" заданного паттерна, их разница
-  /// запиывается в _longer
-  /// это нужно для отслеживания повторяющихся паттернов в функции checkRepeat
   _longer--;
 }
 
@@ -63,10 +58,11 @@ finder::finder(std::string& haystack, std::string needle, int& threshold) {
 }
 finder::finder() {}
 
-void finder::FindSearch() {
+void finder::ExtendedSearchStrFind() {
   int len = _needle.length();
   for (int counter = len - _threshold + 1, shift = 0; counter - shift > 0;
        shift++) {
     MyFind(_needle.substr(shift, _threshold), shift);
   }
+  this->clearModel();
 }

@@ -1,5 +1,7 @@
 #include "finder.h"
 
+const int NOT_FOUND = -1;
+
 std::vector<int> finder::PrefixFunction(const std::string& pattern) {
   int len = pattern.length();
   std::vector<int> out(len);
@@ -25,7 +27,7 @@ int finder::KMPSearch(std::string& pattern, int haystackIndex) {
   int indexPattern = 0;
   int patternLen = pattern.length();
   int haystackLen = _haystack.length();
-  int ret = -1;
+  int ret = NOT_FOUND;
   bool finded = false;
   std::vector<int> prefix = PrefixFunction(pattern);
 
@@ -49,23 +51,24 @@ int finder::KMPSearch(std::string& pattern, int haystackIndex) {
   return ret;
 }
 
-void finder::namefunc(std::string p, int posInNeedle) {
-  int index = 0;
+void finder::SearchLongerPatterns(std::string p, int posInNeedle) {
+  /// startIndex - индекс символа, с которого начинается поиск в строке
+  int startIndex = 0;
   bool finded = false;
-  while (index != -1) {
-    index = KMPSearch(p, index);
+  while (startIndex != NOT_FOUND) {
+    startIndex = KMPSearch(p, startIndex);
 
-    if (checkRepeat(index, posInNeedle)) {
-      index = index + 1;
-    } else if (index != -1) {
+    if (checkRepeat(startIndex, posInNeedle)) {
+      startIndex = startIndex + 1;
+    } else if (startIndex != -1) {
       int deltaLen =
-          checkLongerWord(index + _threshold, posInNeedle + _threshold);
+          checkLongerWord(startIndex + _threshold, posInNeedle + _threshold);
       _longer = deltaLen;
       finded = true;
       std::cout << "sequence of length = " << _threshold + deltaLen;
-      std::cout << " found at haystack offset " << index;
+      std::cout << " found at haystack offset " << startIndex;
       std::cout << ", needle offset " << posInNeedle << std::endl;
-      index = index + deltaLen + 1;
+      startIndex = startIndex + deltaLen + 1;
     }
   }
   _isFindedBefore = finded;
@@ -73,15 +76,16 @@ void finder::namefunc(std::string p, int posInNeedle) {
   _longer--;
 }
 
-void finder::Search() {
+void finder::ExtendedSearchKMP() {
   int len = _needle.length();
   for (int counter = len - _threshold + 1, shift = 0; counter - shift > 0;
        shift++) {
-    namefunc(_needle.substr(shift, _threshold), shift);
+    SearchLongerPatterns(_needle.substr(shift, _threshold), shift);
   }
+  this->clearModel();
 }
 
-// vnk2435kvabco8awkh125kabcabcjneytbcd12qjhb4acd123xmnbqwnw4tcd123
+// vnk2435kvabco8awkh125kabcabcjneytbcd12qjhb4acd123xmnbqwnw4tcd12332nkjghkgjfnqliuthlj2qbfkti2§uythkhqfhtu34hrgewlp;['pkdszfghjl;'[lpkvdcszdxfcghjkop;l[oi98r5egsdvz]]]14gouiflqhjk,bmnsad344qoigulhwje
 
 // int main() {
 //   std::string haystack = "abcabeabcabcabd";

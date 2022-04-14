@@ -21,11 +21,13 @@ class finder {
   finder();
   finder(std::string& haystack, std::string needle, int& threshold);
 
-  /// methods for FindSearch
+  /// methods for ExtendedSearchStrFind
   void MyFind(std::string p, int posInNeedle);
+  void ExtendedSearchStrFind();
+
+  /// common methods
   int checkLongerWord(int posH, int posN);
   bool checkRepeat(int posH, int posN);
-  void FindSearch();
 
   /// setters
   void SetHaystack(const std::string& str);
@@ -34,7 +36,13 @@ class finder {
 
   /// methods for Knude_Morris_Prutt search
   std::vector<int> PrefixFunction(const std::string& pattern);
-  void namefunc(std::string p, int posInNeedle);
-  int KMPSearch(std::string& pattern, int posInNeedle);
-  void Search();
+  void SearchLongerPatterns(std::string pattern, int posInNeedle);
+
+  /// возвращает индекс первого символа вхождения pattern в haystack
+  int KMPSearch(std::string& pattern, int haystackStartIndex);
+  void ExtendedSearchKMP();
+
+  /// model help functions
+
+  void clearModel();
 };

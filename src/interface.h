@@ -6,10 +6,13 @@
 
 class interface {
  private:
-  /// -1 - program is off, 0 - exit, 1 - enter data, 10 - user choose mod
+  /// -1 - program is off, 0 - exit, 1 - enter data, 2 - set search mode, 3 -
+  /// search, 4 - enable / disable time show, 10 - user choose mod
   int _status = -1;
-  // 1 - find, 2 - brutforce
+  // 1 - find, 2 - KMP
   int _searchMode = 1;
+
+  bool _showTime = false;
   finder *model;
 
  public:
